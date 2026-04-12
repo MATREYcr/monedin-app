@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { Shield, Smile, Zap } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SignInParentForm } from '@/features/auth/components/SignInParentForm'
 import { SignInChildForm } from '@/features/auth/components/SignInChildForm'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const Route = createFileRoute('/_auth/sign-in')({
   component: SignInPage,
@@ -10,49 +10,40 @@ export const Route = createFileRoute('/_auth/sign-in')({
 
 function SignInPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="w-full max-w-sm space-y-4">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">Monedín</h1>
-          <p className="text-muted-foreground text-sm">Inicia sesión en tu cuenta</p>
+    <div className="space-y-6">
+      <div>
+        <div className="flex items-center gap-2">
+          <Zap className="h-5 w-5 text-primary" />
+          <h2 className="text-2xl font-black text-gray-900">¡Comienza la aventura!</h2>
         </div>
-
-        <Tabs defaultValue="parent">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="parent">Padre / Madre</TabsTrigger>
-            <TabsTrigger value="child">Niño</TabsTrigger>
-          </TabsList>
-          <TabsContent value="parent">
-            <Card>
-              <CardHeader>
-                <CardTitle>Acceso para padres</CardTitle>
-                <CardDescription>Usa tu correo y contraseña</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SignInParentForm />
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="child">
-            <Card>
-              <CardHeader>
-                <CardTitle>Acceso para niños</CardTitle>
-                <CardDescription>Usa tu nombre de usuario</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SignInChildForm />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        <p className="text-muted-foreground text-center text-sm">
-          ¿No tienes cuenta?{' '}
-          <Link to="/sign-up" className="text-foreground underline underline-offset-4">
-            Regístrate
-          </Link>
-        </p>
+        <p className="mt-1 text-sm text-muted-foreground">Selecciona cómo quieres entrar</p>
       </div>
+
+      <Tabs defaultValue="parent">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="parent" className="flex items-center gap-1.5">
+            <Shield className="h-3.5 w-3.5" />
+            Padre / Madre
+          </TabsTrigger>
+          <TabsTrigger value="child" className="flex items-center gap-1.5">
+            <Smile className="h-3.5 w-3.5" />
+            Niño
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="parent" className="pt-2">
+          <SignInParentForm />
+        </TabsContent>
+        <TabsContent value="child" className="pt-2">
+          <SignInChildForm />
+        </TabsContent>
+      </Tabs>
+
+      <p className="text-center text-sm text-muted-foreground">
+        ¿No tienes cuenta?{' '}
+        <Link to="/sign-up" className="font-medium text-primary underline underline-offset-4">
+          Crear cuenta nueva
+        </Link>
+      </p>
     </div>
   )
 }

@@ -31,15 +31,15 @@ export function SignInChildForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nombre de usuario</FormLabel>
+            <FormItem className="space-y-1.5">
+              <FormLabel className="text-sm font-semibold text-foreground">Nombre de usuario</FormLabel>
               <FormControl>
-                <Input placeholder="mi_usuario" {...field} />
+                <Input placeholder="mi_usuario" className="h-11 text-base" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -49,17 +49,21 @@ export function SignInChildForm() {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contraseña</FormLabel>
+            <FormItem className="space-y-1.5">
+              <FormLabel className="text-sm font-semibold text-foreground">Contraseña</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••" {...field} />
+                <Input type="password" placeholder="••••" className="h-11 text-base" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Entrando...' : 'Entrar'}
+        <Button
+          type="submit"
+          className="w-full h-12 text-base font-bold mt-1 btn-brand"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? 'Entrando...' : 'Entrar →'}
         </Button>
       </form>
     </Form>

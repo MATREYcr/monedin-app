@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//e/Documents/MONEDIN/monedin-api/src/common/**)",
+      "Read(//e/Documents/MONEDIN/monedin-api/src/**)"
+    ]
+  }
+}

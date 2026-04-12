@@ -33,15 +33,15 @@ export function SignUpForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nombre completo</FormLabel>
+            <FormItem className="space-y-1.5">
+              <FormLabel className="text-sm font-semibold text-foreground">Nombre completo</FormLabel>
               <FormControl>
-                <Input placeholder="Juan García" {...field} />
+                <Input placeholder="Juan García" className="h-11 text-base" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -51,10 +51,10 @@ export function SignUpForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Correo electrónico</FormLabel>
+            <FormItem className="space-y-1.5">
+              <FormLabel className="text-sm font-semibold text-foreground">Correo electrónico</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="tu@correo.com" {...field} />
+                <Input type="email" placeholder="tu@correo.com" className="h-11 text-base" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,17 +64,21 @@ export function SignUpForm() {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contraseña</FormLabel>
+            <FormItem className="space-y-1.5">
+              <FormLabel className="text-sm font-semibold text-foreground">Contraseña</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input type="password" placeholder="••••••••" className="h-11 text-base" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Creando cuenta...' : 'Crear cuenta'}
+        <Button
+          type="submit"
+          className="w-full h-12 text-base font-bold mt-1 btn-brand"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? 'Creando cuenta...' : 'Crear cuenta →'}
         </Button>
       </form>
     </Form>
