@@ -3,11 +3,18 @@ import type { ChildProfile } from '../types'
 
 interface ChildCardProps {
   child: ChildProfile
+  isActive?: boolean
+  onClick?: () => void
 }
 
-export function ChildCard({ child }: ChildCardProps) {
+export function ChildCard({ child, isActive, onClick }: ChildCardProps) {
   return (
-    <Card>
+    <Card
+      className={onClick ? 'cursor-pointer transition-shadow hover:shadow-md' : ''}
+      onClick={onClick}
+      data-active={isActive}
+      style={isActive ? { outline: '2px solid var(--primary)', outlineOffset: '2px' } : undefined}
+    >
       <CardContent className="flex items-center gap-4 py-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-xl">
           {child.avatar ?? '🧒'}
