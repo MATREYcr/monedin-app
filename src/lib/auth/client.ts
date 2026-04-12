@@ -6,4 +6,10 @@ export const authClient = createAuthClient({
   plugins: [usernameClient()],
 })
 
+export type FamilyRole = 'PARENT' | 'CHILD'
+
+export function getFamilyRole(user: Record<string, unknown>): FamilyRole {
+  return (user.familyRole as FamilyRole) ?? 'PARENT'
+}
+
 export const { signIn, signOut, signUp, useSession } = authClient
