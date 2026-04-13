@@ -1,29 +1,13 @@
-import { createFileRoute, redirect, Outlet } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { authClient, getFamilyRole } from '@/lib/auth/client'
-import { AppSidebar } from '@/components/app-sidebar'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { FamilyRole, ROUTES } from '@/constants'
+import { ParentLayout } from '@/components/layout/ParentLayout'
 
 export const Route = createFileRoute('/_parent')({
   beforeLoad: async () => {
     const { data: session } = await authClient.getSession()
-    if (!session) throw redirect({ to: '/sign-in' })
-    if (getFamilyRole(session.user) === 'CHILD') throw redirect({ to: '/child' })
+    if (!session) throw redirect({ to: ROUTES.SIGN_IN })
+    if (getFamilyRole(session.user) === FamilyRole.CHILD) throw redirect({ to: ROUTES.CHILD_HOME })
   },
   component: ParentLayout,
 })
-
-function ParentLayout() {
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-12 shrink-0 items-center border-b px-4">
-          <SidebarTrigger />
-        </header>
-        <div className="p-8">
-          <Outlet />
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
-  )
-}

@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { signUp } from '@/lib/auth/client'
+import { ROUTES } from '@/constants'
 import { signUpSchema, type SignUpValues } from '@/features/auth/schemas'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -28,7 +29,7 @@ export function SignUpForm() {
     }
 
     toast.success('Cuenta creada correctamente')
-    navigate({ to: '/dashboard' })
+    navigate({ to: ROUTES.DASHBOARD })
   }
 
   return (

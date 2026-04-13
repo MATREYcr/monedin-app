@@ -1,44 +1,13 @@
-import { createFileRoute, redirect, Outlet, useNavigate } from '@tanstack/react-router'
-import { authClient, getFamilyRole, signOut, useSession } from '@/lib/auth/client'
-import { Button } from '@/components/ui/button'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { authClient, getFamilyRole } from '@/lib/auth/client'
+import { FamilyRole, ROUTES } from '@/constants'
+import { ChildLayout } from '@/components/layout/ChildLayout'
 
 export const Route = createFileRoute('/_child')({
   beforeLoad: async () => {
     const { data: session } = await authClient.getSession()
-    if (!session) throw redirect({ to: '/sign-in' })
-    if (getFamilyRole(session.user) === 'PARENT') throw redirect({ to: '/dashboard' })
+    if (!session) throw redirect({ to: ROUTES.SIGN_IN })
+    if (getFamilyRole(session.user) === FamilyRole.PARENT) throw redirect({ to: ROUTES.DASHBOARD })
   },
   component: ChildLayout,
 })
-
-function ChildLayout() {
-  const navigate = useNavigate()
-  const { data: session } = useSession()
-
-  async function handleSignOut() {
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => navigate({ to: '/sign-in' }),
-      },
-    })
-  }
-
-  return (
-    <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <span className="text-lg font-bold">Monedín</span>
-          <div className="flex items-center gap-3">
-            <span className="text-muted-foreground text-sm">{session?.user.name}</span>
-            <Button variant="outline" size="sm" onClick={handleSignOut}>
-              Cerrar sesión
-            </Button>
-          </div>
-        </div>
-      </nav>
-      <main className="mx-auto max-w-3xl px-4 py-8">
-        <Outlet />
-      </main>
-    </div>
-  )
-}

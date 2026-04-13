@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { signIn } from '@/lib/auth/client'
+import { ROUTES } from '@/constants'
 import { signInParentSchema, type SignInParentValues } from '@/features/auth/schemas'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -26,7 +27,7 @@ export function SignInParentForm() {
       return
     }
 
-    navigate({ to: '/dashboard' })
+    navigate({ to: ROUTES.DASHBOARD })
   }
 
   return (

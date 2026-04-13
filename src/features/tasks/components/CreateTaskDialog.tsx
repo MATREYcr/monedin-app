@@ -1,12 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
-import axios from 'axios'
 import { useUIStore } from '@/store/ui.store'
 import { useChildStore } from '@/store/child.store'
 import { useChildren } from '@/features/children/hooks/useChildren'
 import { createTaskSchema, type CreateTaskValues } from '../schemas'
 import { useCreateTask } from '../hooks/useTaskMutations'
+import { COINS } from '../constants'
 import {
   Dialog,
   DialogContent,
@@ -24,6 +23,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 
 export function CreateTaskDialog() {
   const { createTaskOpen, closeCreateTask } = useUIStore()
@@ -53,14 +53,8 @@ export function CreateTaskDialog() {
       },
       {
         onSuccess: () => {
-          toast.success('¡Tarea creada!')
           form.reset()
           closeCreateTask()
-        },
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            toast.error(error.response?.data?.message ?? 'Error al crear la tarea')
-          }
         },
       },
     )
@@ -121,7 +115,7 @@ export function CreateTaskDialog() {
                   <FormItem>
                     <FormLabel>Monedas</FormLabel>
                     <FormControl>
-                      <Input type="number" min={0} max={9999} placeholder="10" {...field} />
+                      <Input type="number" min={0} max={COINS.MAX} placeholder="10" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -149,19 +143,22 @@ export function CreateTaskDialog() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Hijo</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      <option value="">Selecciona un hijo</option>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <span className={field.value ? '' : 'text-muted-foreground'}>
+                          {children?.find((c) => c.id === field.value)?.user.name ?? 'Selecciona un hijo'}
+                        </span>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
                       {children?.map((child) => (
-                        <option key={child.id} value={child.id}>
+                        <SelectItem key={child.id} value={child.id}>
                           {child.user.name}
-                        </option>
+                        </SelectItem>
                       ))}
-                    </select>
-                  </FormControl>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

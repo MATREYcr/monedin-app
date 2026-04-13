@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { ChildProfile } from '@/features/children/types'
+import { STORAGE_KEYS } from '@/constants'
 
 interface ChildStore {
   activeChild: ChildProfile | null
@@ -15,6 +16,6 @@ export const useChildStore = create<ChildStore>()(
       setActiveChild: (child) => set({ activeChild: child }),
       clearActiveChild: () => set({ activeChild: null }),
     }),
-    { name: 'monedin-active-child' },
+    { name: STORAGE_KEYS.ACTIVE_CHILD },
   ),
 )
