@@ -10,7 +10,7 @@ export function ChildrenPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Mis hijos</h1>
-        <Button onClick={openCreateChild}>+ Agregar hijo</Button>
+        <Button size="lg" className="btn-brand" onClick={openCreateChild}>+ Agregar hijo</Button>
       </div>
       <ChildrenList />
       <CreateChildDialog />

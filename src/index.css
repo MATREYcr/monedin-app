@@ -57,6 +57,7 @@
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
     --primary: oklch(0.76 0.13 210);   /* #0BC5EA */
+    --gradient-brand: linear-gradient(135deg, var(--primary) 0%, var(--brand-green) 100%);
     --primary-foreground: oklch(0.99 0 0);
     --brand-green: oklch(0.69 0.14 155); /* #48BB78 */
     --secondary: oklch(0.97 0 0);
@@ -79,8 +80,8 @@
     --sidebar-foreground: oklch(0.145 0 0);
     --sidebar-primary: oklch(0.205 0 0);
     --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-accent: oklch(0.94 0 0);
+    --sidebar-accent-foreground: var(--sidebar-foreground);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
 }
@@ -133,7 +134,7 @@
 .animate-float-fast { animation: float-fast 2.8s ease-in-out infinite; }
 
 .btn-brand {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--brand-green) 100%);
+  background: var(--gradient-brand);
   color: white;
   border: none;
 }

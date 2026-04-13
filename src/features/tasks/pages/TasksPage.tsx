@@ -21,7 +21,7 @@ export function TasksPage() {
             </p>
           )}
         </div>
-        <Button onClick={openCreateTask}>+ Nueva tarea</Button>
+        <Button size="lg" className="btn-brand" onClick={openCreateTask}>+ Nueva tarea</Button>
       </div>
 
       <TaskList childId={activeChild?.id} />

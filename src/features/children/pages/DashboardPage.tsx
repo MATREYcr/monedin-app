@@ -18,7 +18,11 @@ export function DashboardPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl font-bold">
-          Hola, {session?.user.name?.split(' ')[0]} 👋
+          Hola,{' '}
+          <span className="bg-linear-to-r from-primary to-brand-green bg-clip-text text-transparent">
+            {session?.user.name?.split(' ')[0]}
+          </span>{' '}
+          👋
         </h1>
         <p className="text-muted-foreground">Selecciona un hijo para gestionar su actividad</p>
       </div>
@@ -26,7 +30,7 @@ export function DashboardPage() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-foreground">Mis hijos</h2>
-          <Button size="sm" onClick={openCreateChild}>+ Agregar hijo</Button>
+          <Button size="lg" className="btn-brand" onClick={openCreateChild}>+ Agregar hijo</Button>
         </div>
 
         {isLoading && (
@@ -38,7 +42,7 @@ export function DashboardPage() {
         )}
 
         {!isLoading && (!children || children.length === 0) && (
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed py-12 text-center">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-primary/20 py-12 text-center">
             <Users className="mb-3 h-10 w-10 text-muted-foreground/40" />
             <p className="text-sm font-medium text-muted-foreground">Aún no tienes hijos registrados</p>
             <Button variant="ghost" size="sm" className="mt-2" onClick={openCreateChild}>
