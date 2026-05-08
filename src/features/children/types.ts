@@ -17,3 +17,9 @@ export interface CreateChildDto {
   age?: number
   avatar?: string
 }
+
+export interface UpdateChildDto {
+  name?: string
+  age?: number
+  avatar?: string
+}

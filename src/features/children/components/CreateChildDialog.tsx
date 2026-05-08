@@ -1,7 +1,6 @@
+import { CHILD_AGE } from '../constants'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
-import axios from 'axios'
 import { createChildSchema, type CreateChildValues } from '../schemas'
 import { useCreateChild } from '../hooks/useChildMutations'
 import { useUIStore } from '@/store/ui.store'
@@ -35,14 +34,8 @@ export function CreateChildDialog() {
       },
       {
         onSuccess: () => {
-          toast.success(`¡${values.name} ha sido añadido!`)
           form.reset()
           closeCreateChild()
-        },
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            toast.error(error.response?.data?.message ?? 'Error al crear el hijo')
-          }
         },
       },
     )
@@ -111,9 +104,9 @@ export function CreateChildDialog() {
               name="age"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Edad (opcional, 6-11 años)</FormLabel>
+                  <FormLabel>Edad (opcional, {CHILD_AGE.MIN}-{CHILD_AGE.MAX} años)</FormLabel>
                   <FormControl>
-                    <Input type="number" min={6} max={11} placeholder="8" {...field} />
+                    <Input type="number" min={CHILD_AGE.MIN} max={CHILD_AGE.MAX} placeholder="8" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
