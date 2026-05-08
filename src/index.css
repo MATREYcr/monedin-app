@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;900&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -141,6 +142,17 @@
 .btn-brand:hover {
   opacity: 0.9;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes childPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.75; }
+}
+.animate-fadeIn      { animation: fadeIn 0.3s ease forwards; }
+.animate-child-pulse { animation: childPulse 3s ease infinite; }
 
 @layer base {
   * {

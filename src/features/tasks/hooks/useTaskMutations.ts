@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { queryKeys } from '@/lib/query/keys'
-import { createTask, deleteTask, approveTask, rejectTask } from '../api'
+import { createTask, updateTask, deleteTask, approveTask, rejectTask, completeTask } from '../api'
 
 function getErrorMessage(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
@@ -22,6 +22,22 @@ export function useCreateTask() {
     },
     onError: (error) => {
       toast.error(getErrorMessage(error, 'Error al crear la tarea'))
+    },
+  })
+}
+
+export function useUpdateTask() {
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, dto }: { id: string; dto: Parameters<typeof updateTask>[1] }) =>
+      updateTask(id, dto),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.tasks.all })
+      toast.success('Tarea actualizada')
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error, 'Error al actualizar la tarea'))
     },
   })
 }
@@ -67,6 +83,21 @@ export function useRejectTask() {
     },
     onError: (error) => {
       toast.error(getErrorMessage(error, 'Error al rechazar la tarea'))
+    },
+  })
+}
+
+export function useCompleteTask() {
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: completeTask,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.tasks.all })
+      qc.invalidateQueries({ queryKey: queryKeys.childMe.me })
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error, 'Error al completar la tarea'))
     },
   })
 }

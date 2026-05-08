@@ -2,6 +2,7 @@ import { useUIStore } from '@/store/ui.store'
 import { Button } from '@/components/ui/button'
 import { ChildrenList } from '@/features/children/components/ChildrenList'
 import { CreateChildDialog } from '@/features/children/components/CreateChildDialog'
+import { EditChildDialog } from '@/features/children/components/EditChildDialog'
 
 export function ChildrenPage() {
   const openCreateChild = useUIStore((s) => s.openCreateChild)
@@ -14,6 +15,7 @@ export function ChildrenPage() {
       </div>
       <ChildrenList />
       <CreateChildDialog />
+      <EditChildDialog />
     </div>
   )
 }

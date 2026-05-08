@@ -1,5 +1,8 @@
+import { Pencil } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { useUIStore } from '@/store/ui.store'
 import type { ChildProfile } from '../types'
 
 interface ChildCardProps {
@@ -9,6 +12,13 @@ interface ChildCardProps {
 }
 
 export function ChildCard({ child, isActive, onClick }: ChildCardProps) {
+  const openEditChild = useUIStore((s) => s.openEditChild)
+
+  function handleEdit(e: React.MouseEvent) {
+    e.stopPropagation()
+    openEditChild(child)
+  }
+
   return (
     <Card
       className={cn(
@@ -29,9 +39,20 @@ export function ChildCard({ child, isActive, onClick }: ChildCardProps) {
             <p className="text-muted-foreground text-xs">{child.age} años</p>
           )}
         </div>
-        <div className="text-right shrink-0">
-          <p className="font-bold text-primary">{child.coins}</p>
-          <p className="text-muted-foreground text-xs">monedas</p>
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="text-right">
+            <p className="font-bold text-primary">{child.coins}</p>
+            <p className="text-muted-foreground text-xs">monedas</p>
+          </div>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-9 w-9 rounded-xl btn-brand"
+            onClick={handleEdit}
+            title="Editar"
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
         </div>
       </CardContent>
     </Card>

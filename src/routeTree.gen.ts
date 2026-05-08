@@ -14,10 +14,13 @@ import { Route as ChildRouteImport } from './routes/_child'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ParentDashboardRouteImport } from './routes/_parent/dashboard'
+import { Route as ChildTiendaRouteImport } from './routes/_child/tienda'
+import { Route as ChildTareasRouteImport } from './routes/_child/tareas'
 import { Route as ChildChildRouteImport } from './routes/_child/child'
 import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
 import { Route as ParentTasksIndexRouteImport } from './routes/_parent/tasks/index'
+import { Route as ParentRewardsIndexRouteImport } from './routes/_parent/rewards/index'
 import { Route as ParentChildrenIndexRouteImport } from './routes/_parent/children/index'
 
 const ParentRoute = ParentRouteImport.update({
@@ -42,6 +45,16 @@ const ParentDashboardRoute = ParentDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ParentRoute,
 } as any)
+const ChildTiendaRoute = ChildTiendaRouteImport.update({
+  id: '/tienda',
+  path: '/tienda',
+  getParentRoute: () => ChildRoute,
+} as any)
+const ChildTareasRoute = ChildTareasRouteImport.update({
+  id: '/tareas',
+  path: '/tareas',
+  getParentRoute: () => ChildRoute,
+} as any)
 const ChildChildRoute = ChildChildRouteImport.update({
   id: '/child',
   path: '/child',
@@ -62,6 +75,11 @@ const ParentTasksIndexRoute = ParentTasksIndexRouteImport.update({
   path: '/tasks/',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentRewardsIndexRoute = ParentRewardsIndexRouteImport.update({
+  id: '/rewards/',
+  path: '/rewards/',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentChildrenIndexRoute = ParentChildrenIndexRouteImport.update({
   id: '/children/',
   path: '/children/',
@@ -73,8 +91,11 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/child': typeof ChildChildRoute
+  '/tareas': typeof ChildTareasRoute
+  '/tienda': typeof ChildTiendaRoute
   '/dashboard': typeof ParentDashboardRoute
   '/children/': typeof ParentChildrenIndexRoute
+  '/rewards/': typeof ParentRewardsIndexRoute
   '/tasks/': typeof ParentTasksIndexRoute
 }
 export interface FileRoutesByTo {
@@ -82,8 +103,11 @@ export interface FileRoutesByTo {
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
   '/child': typeof ChildChildRoute
+  '/tareas': typeof ChildTareasRoute
+  '/tienda': typeof ChildTiendaRoute
   '/dashboard': typeof ParentDashboardRoute
   '/children': typeof ParentChildrenIndexRoute
+  '/rewards': typeof ParentRewardsIndexRoute
   '/tasks': typeof ParentTasksIndexRoute
 }
 export interface FileRoutesById {
@@ -95,8 +119,11 @@ export interface FileRoutesById {
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
   '/_child/child': typeof ChildChildRoute
+  '/_child/tareas': typeof ChildTareasRoute
+  '/_child/tienda': typeof ChildTiendaRoute
   '/_parent/dashboard': typeof ParentDashboardRoute
   '/_parent/children/': typeof ParentChildrenIndexRoute
+  '/_parent/rewards/': typeof ParentRewardsIndexRoute
   '/_parent/tasks/': typeof ParentTasksIndexRoute
 }
 export interface FileRouteTypes {
@@ -106,8 +133,11 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/child'
+    | '/tareas'
+    | '/tienda'
     | '/dashboard'
     | '/children/'
+    | '/rewards/'
     | '/tasks/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -115,8 +145,11 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/child'
+    | '/tareas'
+    | '/tienda'
     | '/dashboard'
     | '/children'
+    | '/rewards'
     | '/tasks'
   id:
     | '__root__'
@@ -127,8 +160,11 @@ export interface FileRouteTypes {
     | '/_auth/sign-in'
     | '/_auth/sign-up'
     | '/_child/child'
+    | '/_child/tareas'
+    | '/_child/tienda'
     | '/_parent/dashboard'
     | '/_parent/children/'
+    | '/_parent/rewards/'
     | '/_parent/tasks/'
   fileRoutesById: FileRoutesById
 }
@@ -176,6 +212,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentDashboardRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/_child/tienda': {
+      id: '/_child/tienda'
+      path: '/tienda'
+      fullPath: '/tienda'
+      preLoaderRoute: typeof ChildTiendaRouteImport
+      parentRoute: typeof ChildRoute
+    }
+    '/_child/tareas': {
+      id: '/_child/tareas'
+      path: '/tareas'
+      fullPath: '/tareas'
+      preLoaderRoute: typeof ChildTareasRouteImport
+      parentRoute: typeof ChildRoute
+    }
     '/_child/child': {
       id: '/_child/child'
       path: '/child'
@@ -204,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentTasksIndexRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/_parent/rewards/': {
+      id: '/_parent/rewards/'
+      path: '/rewards'
+      fullPath: '/rewards/'
+      preLoaderRoute: typeof ParentRewardsIndexRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/_parent/children/': {
       id: '/_parent/children/'
       path: '/children'
@@ -228,10 +285,14 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface ChildRouteChildren {
   ChildChildRoute: typeof ChildChildRoute
+  ChildTareasRoute: typeof ChildTareasRoute
+  ChildTiendaRoute: typeof ChildTiendaRoute
 }
 
 const ChildRouteChildren: ChildRouteChildren = {
   ChildChildRoute: ChildChildRoute,
+  ChildTareasRoute: ChildTareasRoute,
+  ChildTiendaRoute: ChildTiendaRoute,
 }
 
 const ChildRouteWithChildren = ChildRoute._addFileChildren(ChildRouteChildren)
@@ -239,12 +300,14 @@ const ChildRouteWithChildren = ChildRoute._addFileChildren(ChildRouteChildren)
 interface ParentRouteChildren {
   ParentDashboardRoute: typeof ParentDashboardRoute
   ParentChildrenIndexRoute: typeof ParentChildrenIndexRoute
+  ParentRewardsIndexRoute: typeof ParentRewardsIndexRoute
   ParentTasksIndexRoute: typeof ParentTasksIndexRoute
 }
 
 const ParentRouteChildren: ParentRouteChildren = {
   ParentDashboardRoute: ParentDashboardRoute,
   ParentChildrenIndexRoute: ParentChildrenIndexRoute,
+  ParentRewardsIndexRoute: ParentRewardsIndexRoute,
   ParentTasksIndexRoute: ParentTasksIndexRoute,
 }
 

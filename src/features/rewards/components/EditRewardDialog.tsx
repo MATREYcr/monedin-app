@@ -1,12 +1,11 @@
+import { useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Trash2 } from 'lucide-react'
 import { useUIStore } from '@/store/ui.store'
-import { useChildStore } from '@/store/child.store'
 import { useChildren } from '@/features/children/hooks/useChildren'
-import { createTaskSchema, type CreateTaskValues } from '../schemas'
-import { useCreateTask } from '../hooks/useTaskMutations'
-import { COINS } from '../constants'
+import { updateRewardSchema, type UpdateRewardValues } from '../schemas'
+import { useUpdateReward } from '../hooks/useRewardMutations'
 import {
   Dialog,
   DialogContent,
@@ -26,20 +25,14 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 
-export function CreateTaskDialog() {
-  const { createTaskOpen, closeCreateTask } = useUIStore()
-  const { mutate: createTask, isPending } = useCreateTask()
+export function EditRewardDialog() {
+  const { editReward, closeEditReward } = useUIStore()
+  const { mutate: updateReward, isPending } = useUpdateReward()
   const { data: children } = useChildren()
-  const activeChild = useChildStore((s) => s.activeChild)
 
-  const form = useForm<CreateTaskValues>({
-    resolver: zodResolver(createTaskSchema),
-    defaultValues: {
-      title: '',
-      description: '',
-      dueDate: '',
-      assignments: [{ childId: activeChild?.id ?? '', coins: '' }],
-    },
+  const form = useForm<UpdateRewardValues>({
+    resolver: zodResolver(updateRewardSchema),
+    defaultValues: { title: '', description: '', image: '', assignments: [] },
   })
 
   const { fields, append, remove } = useFieldArray({
@@ -47,21 +40,39 @@ export function CreateTaskDialog() {
     name: 'assignments',
   })
 
-  function onSubmit(values: CreateTaskValues) {
-    createTask(
-      {
-        title: values.title,
-        description: values.description || undefined,
-        dueDate: values.dueDate || undefined,
-        assignments: values.assignments.map((a) => ({
+  useEffect(() => {
+    if (editReward) {
+      form.reset({
+        title: editReward.title,
+        description: editReward.description ?? '',
+        image: editReward.image ?? '',
+        assignments: editReward.assignments.map((a) => ({
           childId: a.childId,
-          coins: a.coins && a.coins !== '' ? Number(a.coins) : 0,
+          coins: String(a.coins),
         })),
+      })
+    }
+  }, [editReward, form])
+
+  function onSubmit(values: UpdateRewardValues) {
+    if (!editReward) return
+    updateReward(
+      {
+        id: editReward.id,
+        dto: {
+          title: values.title || undefined,
+          description: values.description || undefined,
+          image: values.image || undefined,
+          assignments: values.assignments?.map((a) => ({
+            childId: a.childId,
+            coins: Number(a.coins),
+          })),
+        },
       },
       {
         onSuccess: () => {
-          form.reset({ title: '', description: '', dueDate: '', assignments: [{ childId: activeChild?.id ?? '', coins: '' }] })
-          closeCreateTask()
+          form.reset()
+          closeEditReward()
         },
       },
     )
@@ -69,18 +80,18 @@ export function CreateTaskDialog() {
 
   function handleOpenChange(open: boolean) {
     if (!open) {
-      form.reset({ title: '', description: '', dueDate: '', assignments: [{ childId: activeChild?.id ?? '', coins: '' }] })
-      closeCreateTask()
+      form.reset()
+      closeEditReward()
     }
   }
 
   return (
-    <Dialog open={createTaskOpen} onOpenChange={handleOpenChange}>
+    <Dialog open={!!editReward} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Nueva tarea</DialogTitle>
+          <DialogTitle>Editar recompensa</DialogTitle>
           <DialogDescription>
-            Asigna una tarea a uno o varios hijos. Cada uno recibirá sus monedas al completarla.
+            Modifica los detalles y asignaciones de {editReward?.title}.
           </DialogDescription>
         </DialogHeader>
 
@@ -93,7 +104,7 @@ export function CreateTaskDialog() {
                 <FormItem>
                   <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ej: Tender la cama" {...field} />
+                    <Input placeholder="Ej: Helado extra" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,7 +118,7 @@ export function CreateTaskDialog() {
                 <FormItem>
                   <FormLabel>Descripción (opcional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Detalles de la tarea..." {...field} />
+                    <Input placeholder="Detalles de la recompensa..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -116,12 +127,12 @@ export function CreateTaskDialog() {
 
             <FormField
               control={form.control}
-              name="dueDate"
+              name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fecha límite (opcional)</FormLabel>
+                  <FormLabel>Imagen (URL, opcional)</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input type="url" placeholder="https://..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -164,7 +175,7 @@ export function CreateTaskDialog() {
                     render={({ field: f }) => (
                       <FormItem className="w-24">
                         <FormControl>
-                          <Input type="number" min={0} max={COINS.MAX} placeholder="🪙" {...f} />
+                          <Input type="number" min={1} max={9999} placeholder="🪙" {...f} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -206,7 +217,7 @@ export function CreateTaskDialog() {
                 Cancelar
               </Button>
               <Button type="submit" className="flex-1 btn-brand" disabled={isPending}>
-                {isPending ? 'Creando...' : 'Crear tarea →'}
+                {isPending ? 'Guardando...' : 'Guardar cambios →'}
               </Button>
             </div>
           </form>

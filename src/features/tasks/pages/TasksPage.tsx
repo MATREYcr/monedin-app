@@ -3,6 +3,7 @@ import { useChildStore } from '@/store/child.store'
 import { Button } from '@/components/ui/button'
 import { TaskList } from '@/features/tasks/components/TaskList'
 import { CreateTaskDialog } from '@/features/tasks/components/CreateTaskDialog'
+import { EditTaskDialog } from '@/features/tasks/components/EditTaskDialog'
 
 export function TasksPage() {
   const openCreateTask = useUIStore((s) => s.openCreateTask)
@@ -26,6 +27,7 @@ export function TasksPage() {
 
       <TaskList childId={activeChild?.id} />
       <CreateTaskDialog />
+      <EditTaskDialog />
     </div>
   )
 }

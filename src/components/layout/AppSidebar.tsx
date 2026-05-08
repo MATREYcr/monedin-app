@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
 import type { LucideIcon } from 'lucide-react'
-import { ChevronDown, ClipboardList, Home, LogOut, Users } from 'lucide-react'
+import { ChevronDown, ClipboardList, Gift, Home, LogOut, Users } from 'lucide-react'
 import { signOut, useSession } from '@/lib/auth/client'
 import { useChildStore } from '@/store/child.store'
 import { useChildren } from '@/features/children/hooks/useChildren'
@@ -32,6 +32,7 @@ const NAV_LINKS: { to: string; label: string; icon: LucideIcon }[] = [
   { to: ROUTES.DASHBOARD, label: 'Inicio', icon: Home },
   { to: ROUTES.CHILDREN, label: 'Hijos', icon: Users },
   { to: ROUTES.TASKS, label: 'Tareas', icon: ClipboardList },
+  { to: ROUTES.REWARDS, label: 'Recompensas', icon: Gift },
 ]
 
 function SidebarDivider({ className }: { className?: string }) {

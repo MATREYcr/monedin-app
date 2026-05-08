@@ -17,7 +17,13 @@ export interface Task {
 export interface CreateTaskDto {
   title: string
   description?: string
+  dueDate?: string
+  assignments: { childId: string; coins: number }[]
+}
+
+export interface UpdateTaskDto {
+  title?: string
+  description?: string
   coins?: number
-  childId: string
   dueDate?: string
 }
