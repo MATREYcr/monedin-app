@@ -5,6 +5,7 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import path from 'path'
 
 export default defineConfig({
+  base: '/~daniel.supelano/monedin/',
   plugins: [
     TanStackRouterVite({ routesDirectory: './src/routes' }),
     react(),
