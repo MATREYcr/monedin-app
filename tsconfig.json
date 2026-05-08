@@ -6,7 +6,7 @@
   ],
   "compilerOptions": {
     "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
+    "baseUrl": "/~daniel.supelano/monedin",
     "paths": {
       "@/*": ["./src/*"]
     }
