@@ -57,21 +57,40 @@ function RewardCard({
       flexDirection: 'column',
       gap: 10,
     }}>
-      <div style={{
-        width: 52,
-        height: 52,
-        borderRadius: 16,
-        background: `${color}22`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        {redeemed
-          ? <CheckCircle2 size={28} color={color} strokeWidth={2} />
-          : <Gift size={28} color={color} strokeWidth={2} />
-        }
-      </div>
+      {reward.image ? (
+        <div style={{ position: 'relative', width: '100%', height: 140, borderRadius: 16, overflow: 'hidden', flexShrink: 0 }}>
+          <img
+            src={reward.image}
+            alt={reward.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+          {redeemed && (
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: `${GREEN}cc`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <CheckCircle2 size={40} color="#fff" strokeWidth={2.5} />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div style={{
+          width: 52,
+          height: 52,
+          borderRadius: 16,
+          background: `${color}22`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+        }}>
+          {redeemed
+            ? <CheckCircle2 size={28} color={color} strokeWidth={2} />
+            : <Gift size={28} color={color} strokeWidth={2} />
+          }
+        </div>
+      )}
 
       <div style={{ flex: 1 }}>
         <div style={{ fontFamily: D, fontSize: 17, color: TEXT, lineHeight: 1.2 }}>{reward.title}</div>
