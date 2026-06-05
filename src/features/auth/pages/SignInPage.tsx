@@ -37,9 +37,9 @@ export function SignInPage() {
 
       <p className="text-center text-sm text-muted-foreground">
         ¿No tienes cuenta?{' '}
-        <Link to={ROUTES.SIGN_UP} className="font-medium text-primary underline underline-offset-4">
+        {/* <Link to={ROUTES.SIGN_UP} className="font-medium text-primary underline underline-offset-4">
           Crear cuenta nueva
-        </Link>
+        </Link> */}
       </p>
     </div>
   )
