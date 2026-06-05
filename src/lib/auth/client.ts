@@ -5,8 +5,7 @@ import { FamilyRole } from '@/constants'
 export { FamilyRole }
 
 export const authClient = createAuthClient({
-  baseURL: import.meta.env.VITE_API_URL,
-  basePath: '/auth',
+  baseURL: `${(import.meta.env.VITE_API_URL as string).replace(/\/+$/, '')}/auth`,
   plugins: [usernameClient()],
 })
 
